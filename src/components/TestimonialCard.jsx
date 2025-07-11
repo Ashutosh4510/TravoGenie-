@@ -2,7 +2,19 @@ function TestimonialCard({ image, name, location, rating, text }) {
   return (
     <div className="testimonial-card">
       <div className="user-info">
-        <img src={image} alt={name} className="user-avatar" />
+        <img
+  src={image}
+  alt={name}
+  className="user-avatar"
+  style={{
+    width: "60px",
+    height: "60px",
+    borderRadius: "50%",
+    objectFit: "cover",
+    marginRight: "1rem"
+  }}
+/>
+
         <div className="user-details">
           <h3>{name}</h3>
           <p>{location}</p>

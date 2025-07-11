@@ -11,3 +11,73 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+/* css for destination */
+.destination-card {
+  background: #fff;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+  transition: transform 0.3s ease;
+}
+
+.destination-card:hover {
+  transform: translateY(-5px);
+}
+
+.destination-info {
+  padding: 1rem;
+}
+
+.destination-price {
+  color: #2a4365;
+  font-weight: bold;
+  margin-top: 0.5rem;
+}
+/* css for testimonial */
+.testimonial-card {
+  background: #fff;
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+  transition: transform 0.3s ease;
+}
+
+.testimonial-card:hover {
+  transform: scale(1.02);
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.user-details h3 {
+  margin: 0;
+  font-size: 1rem;
+}
+
+.rating {
+  color: #FFD700;
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.testimonial-text {
+  font-size: 0.95rem;
+  color: #444;
+}
+/* animation for butons and effectss. */
+.cta-button:hover {
+  transform: scale(1.05);
+  background-color: #1e355e;
+}
+
+.section-title h2 {
+  animation: fadeInUp 1s ease-in-out;
+}
+
+@keyframes fadeInUp {
+  0% { opacity: 0; transform: translateY(20px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
