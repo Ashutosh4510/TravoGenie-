@@ -359,12 +359,37 @@ function Destination() {
   return (
     <div style={{ padding: '80px 5% 40px', maxWidth: '1400px', margin: '0 auto' }}>
       <div style={{ textAlign: 'center', marginBottom: '40px' }}>
-        <h1 style={{ fontSize: '2.5rem', color: '#2a4365', marginBottom: '15px' }}>Explore Destinations</h1>
-        <p style={{ fontSize: '1.1rem', color: '#666' }}>Discover your perfect getaway from our curated collection</p>
+        <h1
+          className="destination-heading-animate"
+          style={{
+            fontSize: '2.5rem',
+            marginBottom: '15px',
+            background: 'linear-gradient(135deg, #1E90FF, #2ECC71)',
+            WebkitBackgroundClip: 'text',
+            WebkitTextFillColor: 'transparent',
+            backgroundClip: 'text',
+            color: 'transparent'
+          }}
+        >
+          Explore Destinations
+        </h1>
+        <p
+          className="destination-subtitle-animate"
+          style={{
+            fontSize: '1.1rem',
+            background: 'linear-gradient(135deg, #1E90FF, #2ECC71)',
+            WebkitBackgroundClip: 'text',
+            WebkitTextFillColor: 'transparent',
+            backgroundClip: 'text',
+            color: 'transparent'
+          }}
+        >
+          Discover your perfect getaway from our curated collection
+        </p>
       </div>
 
-      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '20px', marginBottom: '30px', alignItems: 'center' }}>
-        <div style={{ position: 'relative', flex: '1', minWidth: '250px' }}>
+      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '28px', marginBottom: '30px', alignItems: 'center' }}>
+        <div style={{ position: 'relative', flex: '0 0 320px', maxWidth: '320px', minWidth: '180px' }}>
           <input
             type="text"
             placeholder="Search destinations..."
@@ -372,77 +397,100 @@ function Destination() {
             onChange={(e) => setSearch(e.target.value)}
             style={{
               width: '100%',
-              padding: '12px 20px 12px 40px',
-              border: '1px solid #ddd',
+              maxWidth: '320px',
+              padding: '14px 24px 14px 44px',
+              border: 'none',
               borderRadius: '30px',
-              fontSize: '1rem',
-              transition: 'all 0.3s ease'
+              fontSize: '1.05rem',
+              background: 'linear-gradient(90deg, #e3eafc 0%, #f8fafc 100%)',
+              boxShadow: '0 2px 8px rgba(44,62,80,0.10)',
+              color: '#2a4365',
+              fontWeight: 500,
+              outline: 'none',
+              transition: 'box-shadow 0.3s, background 0.3s',
             }}
+            onFocus={e => e.target.style.boxShadow = '0 0 0 3px #2a436580'}
+            onBlur={e => e.target.style.boxShadow = '0 2px 8px rgba(44,62,80,0.10)'}
           />
           <FaSearch style={{
             position: 'absolute',
-            left: '15px',
+            left: '18px',
             top: '50%',
             transform: 'translateY(-50%)',
-            color: '#777'
+            color: '#2a4365',
+            fontSize: '1.2rem',
+            opacity: 0.7,
+            pointerEvents: 'none'
           }} />
         </div>
 
-        <div style={{ display: 'flex', gap: '10px' }}>
-          <button 
-            style={{
-              padding: '10px 20px',
-              border: '1px solid #ddd',
-              background: filter === 'all' ? '#2a4365' : 'white',
-              color: filter === 'all' ? 'white' : 'inherit',
-              borderRadius: '30px',
-              cursor: 'pointer',
-              transition: 'all 0.3s ease'
-            }}
-            onClick={() => setFilter('all')}
-          >
-            All
-          </button>
-          <button 
-            style={{
-              padding: '10px 20px',
-              border: '1px solid #ddd',
-              background: filter === 'budget' ? '#2a4365' : 'white',
-              color: filter === 'budget' ? 'white' : 'inherit',
-              borderRadius: '30px',
-              cursor: 'pointer',
-              transition: 'all 0.3s ease'
-            }}
-            onClick={() => setFilter('budget')}
-          >
-            Budget
-          </button>
-          <button 
-            style={{
-              padding: '10px 20px',
-              border: '1px solid #ddd',
-              background: filter === 'luxury' ? '#2a4365' : 'white',
-              color: filter === 'luxury' ? 'white' : 'inherit',
-              borderRadius: '30px',
-              cursor: 'pointer',
-              transition: 'all 0.3s ease'
-            }}
-            onClick={() => setFilter('luxury')}
-          >
-            Luxury
-          </button>
+        <div style={{ display: 'flex', gap: '18px' }}>
+          {['all', 'budget', 'luxury'].map(type => {
+            const colors = {
+              all: '#2a4365',
+              budget: '#38b2ac',
+              luxury: '#d69e2e'
+            };
+            const isActive = filter === type;
+            return (
+              <button
+                key={type}
+                style={{
+                  padding: '7px 18px',
+                  border: 'none',
+                  borderRadius: '22px',
+                  background: isActive
+                    ? colors[type]
+                    : 'linear-gradient(90deg, #e3eafc 0%, #f8fafc 100%)',
+                  color: isActive ? 'white' : colors[type],
+                  fontWeight: 600,
+                  fontSize: '0.95rem',
+                  boxShadow: isActive
+                    ? `0 4px 16px ${colors[type]}40`
+                    : '0 2px 8px rgba(44,62,80,0.10)',
+                  cursor: 'pointer',
+                  transition: 'all 0.25s cubic-bezier(.25,.8,.25,1)',
+                  outline: 'none',
+                  marginRight: type !== 'luxury' ? '0px' : '0', // no extra margin after last
+                }}
+                onClick={() => setFilter(type)}
+                onMouseEnter={e => {
+                  e.target.style.transform = 'scale(1.08)';
+                  e.target.style.boxShadow = `0 8px 24px ${colors[type]}60`;
+                }}
+                onMouseLeave={e => {
+                  e.target.style.transform = 'scale(1)';
+                  e.target.style.boxShadow = isActive
+                    ? `0 4px 16px ${colors[type]}40`
+                    : '0 2px 8px rgba(44,62,80,0.10)';
+                }}
+              >
+                {type.charAt(0).toUpperCase() + type.slice(1)}
+              </button>
+            );
+          })}
         </div>
 
-        <select 
-          value={sort} 
+        <select
+          value={sort}
           onChange={(e) => setSort(e.target.value)}
           style={{
-            padding: '10px 15px',
-            border: '1px solid #ddd',
+            padding: '12px 24px',
+            border: 'none',
             borderRadius: '30px',
-            background: 'white',
-            cursor: 'pointer'
+            background: 'linear-gradient(90deg, #e3eafc 0%, #f8fafc 100%)',
+            color: '#2a4365',
+            fontWeight: '600',
+            fontSize: '1rem',
+            boxShadow: '0 2px 8px rgba(44,62,80,0.10)',
+            outline: 'none',
+            cursor: 'pointer',
+            transition: 'box-shadow 0.3s, background 0.3s',
           }}
+          onFocus={e => e.target.style.boxShadow = '0 0 0 3px #2a436580'}
+          onBlur={e => e.target.style.boxShadow = '0 2px 8px rgba(44,62,80,0.10)'}
+          onMouseEnter={e => e.target.style.background = 'linear-gradient(90deg, #dbeafe 0%, #e3eafc 100%)'}
+          onMouseLeave={e => e.target.style.background = 'linear-gradient(90deg, #e3eafc 0%, #f8fafc 100%)'}
         >
           <option value="">Sort By</option>
           <option value="price-low">Price: Low to High</option>
@@ -508,13 +556,14 @@ function Destination() {
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '30px' }}>
           {filteredDestinations.map((dest, i) => (
             <DestinationCard 
-              key={i}
+              key={`${filter}-${search}-${i}`}
               image={dest.image}
               title={dest.title}
               desc={dest.desc}
               price={dest.price}
               duration={dest.duration}
               rating={dest.rating}
+              className={i % 2 === 0 ? 'left' : 'right'}
             />
           ))}
         </div>
