@@ -1,3 +1,6 @@
+
+import { Link } from 'react-router-dom';
+
 function Home() {
   return (
     <section className="home">
@@ -5,7 +8,7 @@ function Home() {
         <div className="overlay">
           <h1>Discover Your Next Adventure</h1>
           <p>Explore the world with Travogenie. Your journey begins here.</p>
-          <a href="/destination" className="cta-button">Explore Destinations</a>
+          <Link to="/destination" className="cta-button">Explore Destinations</Link>
         </div>
       </div>
     </section>

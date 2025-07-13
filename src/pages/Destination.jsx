@@ -331,6 +331,8 @@ function Destination() {
   const [sort, setSort] = useState(null);
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState('all');
+  const [page, setPage] = useState(1);
+  const cardsPerPage = 8;
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -355,6 +357,9 @@ function Destination() {
       if (sort === 'duration') return a.duration - b.duration;
       return 0;
     });
+
+  const totalPages = Math.ceil(filteredDestinations.length / cardsPerPage);
+  const paginatedDestinations = filteredDestinations.slice((page - 1) * cardsPerPage, page * cardsPerPage);
 
   return (
     <div style={{ padding: '80px 5% 40px', maxWidth: '1400px', margin: '0 auto' }}>
@@ -424,7 +429,7 @@ function Destination() {
           }} />
         </div>
 
-        <div style={{ display: 'flex', gap: '18px' }}>
+        <div style={{ display: 'flex', gap: '48px' }}>
           {['all', 'budget', 'luxury'].map(type => {
             const colors = {
               all: '#2a4365',
@@ -436,33 +441,35 @@ function Destination() {
               <button
                 key={type}
                 style={{
-                  padding: '7px 18px',
+                  padding: '10px 28px',
                   border: 'none',
-                  borderRadius: '22px',
+                  borderRadius: '26px',
                   background: isActive
                     ? colors[type]
                     : 'linear-gradient(90deg, #e3eafc 0%, #f8fafc 100%)',
                   color: isActive ? 'white' : colors[type],
-                  fontWeight: 600,
-                  fontSize: '0.95rem',
+                  fontWeight: 700,
+                  fontSize: '1.08rem',
+                  letterSpacing: '0.5px',
                   boxShadow: isActive
-                    ? `0 4px 16px ${colors[type]}40`
-                    : '0 2px 8px rgba(44,62,80,0.10)',
+                    ? `0 6px 20px ${colors[type]}40`
+                    : '0 4px 16px rgba(44,62,80,0.10)',
                   cursor: 'pointer',
                   transition: 'all 0.25s cubic-bezier(.25,.8,.25,1)',
                   outline: 'none',
-                  marginRight: type !== 'luxury' ? '0px' : '0', // no extra margin after last
+                  marginRight: type !== 'luxury' ? '0px' : '0',
+                  filter: isActive ? 'brightness(1.05)' : 'none',
                 }}
                 onClick={() => setFilter(type)}
                 onMouseEnter={e => {
-                  e.target.style.transform = 'scale(1.08)';
-                  e.target.style.boxShadow = `0 8px 24px ${colors[type]}60`;
+                  e.target.style.transform = 'scale(1.10)';
+                  e.target.style.boxShadow = `0 12px 32px ${colors[type]}60`;
                 }}
                 onMouseLeave={e => {
                   e.target.style.transform = 'scale(1)';
                   e.target.style.boxShadow = isActive
-                    ? `0 4px 16px ${colors[type]}40`
-                    : '0 2px 8px rgba(44,62,80,0.10)';
+                    ? `0 6px 20px ${colors[type]}40`
+                    : '0 4px 16px rgba(44,62,80,0.10)';
                 }}
               >
                 {type.charAt(0).toUpperCase() + type.slice(1)}
@@ -553,20 +560,86 @@ function Destination() {
           </button>
         </div>
       ) : (
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '30px' }}>
-          {filteredDestinations.map((dest, i) => (
-            <DestinationCard 
-              key={`${filter}-${search}-${i}`}
-              image={dest.image}
-              title={dest.title}
-              desc={dest.desc}
-              price={dest.price}
-              duration={dest.duration}
-              rating={dest.rating}
-              className={i % 2 === 0 ? 'left' : 'right'}
-            />
-          ))}
-        </div>
+        <>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '30px' }}>
+            {paginatedDestinations.map((dest, i) => (
+              <DestinationCard 
+                key={`${filter}-${search}-${(page-1)*cardsPerPage+i}`}
+                image={dest.image}
+                title={dest.title}
+                desc={dest.desc}
+                price={dest.price}
+                duration={dest.duration}
+                rating={dest.rating}
+                className={i % 2 === 0 ? 'left' : 'right'}
+              />
+            ))}
+          </div>
+          {totalPages > 1 && (
+            <div style={{ display: 'flex', justifyContent: 'center', gap: '32px', marginTop: '32px' }}>
+              <button
+                onClick={() => setPage(page - 1)}
+                disabled={page === 1}
+                style={{
+                  padding: '10px 28px',
+                  border: 'none',
+                  borderRadius: '26px',
+                  background: page === 1 ? '#e3eafc' : '#2a4365',
+                  color: page === 1 ? '#aaa' : 'white',
+                  fontWeight: 700,
+                  fontSize: '1.08rem',
+                  letterSpacing: '0.5px',
+                  boxShadow: '0 4px 16px rgba(44,62,80,0.10)',
+                  cursor: page === 1 ? 'not-allowed' : 'pointer',
+                  transition: 'all 0.25s cubic-bezier(.25,.8,.25,1)',
+                  outline: 'none',
+                }}
+                onMouseEnter={e => {
+                  if (page !== 1) {
+                    e.target.style.transform = 'scale(1.10)';
+                    e.target.style.boxShadow = '0 12px 32px #2a436560';
+                  }
+                }}
+                onMouseLeave={e => {
+                  e.target.style.transform = 'scale(1)';
+                  e.target.style.boxShadow = '0 4px 16px rgba(44,62,80,0.10)';
+                }}
+              >
+                Previous
+              </button>
+              <button
+                onClick={() => setPage(page + 1)}
+                disabled={page === totalPages}
+                style={{
+                  padding: '10px 28px',
+                  border: 'none',
+                  borderRadius: '26px',
+                  background: page === totalPages ? '#e3eafc' : '#2a4365',
+                  color: page === totalPages ? '#aaa' : 'white',
+                  fontWeight: 700,
+                  fontSize: '1.08rem',
+                  letterSpacing: '0.5px',
+                  boxShadow: '0 4px 16px rgba(44,62,80,0.10)',
+                  cursor: page === totalPages ? 'not-allowed' : 'pointer',
+                  transition: 'all 0.25s cubic-bezier(.25,.8,.25,1)',
+                  outline: 'none',
+                }}
+                onMouseEnter={e => {
+                  if (page !== totalPages) {
+                    e.target.style.transform = 'scale(1.10)';
+                    e.target.style.boxShadow = '0 12px 32px #2a436560';
+                  }
+                }}
+                onMouseLeave={e => {
+                  e.target.style.transform = 'scale(1)';
+                  e.target.style.boxShadow = '0 4px 16px rgba(44,62,80,0.10)';
+                }}
+              >
+                Next
+              </button>
+            </div>
+          )}
+        </>
       )}
 
       <style>{`

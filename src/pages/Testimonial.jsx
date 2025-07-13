@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { FaStar } from 'react-icons/fa';
 import TestimonialCard from '../components/TestimonialCard';
 
 const testimonialData = [
@@ -152,14 +153,20 @@ const testimonialData = [
 ];
 
 function Testimonial() {
-	const [filter, setFilter] = useState('all');
+  const [filter, setFilter] = useState('all');
+  const [page, setPage] = useState(1);
+  const cardsPerPage = 8;
 
-	const filteredData = testimonialData.filter((item) => {
-		if (filter === 'all') return true;
-		if (filter === '5') return item.rating === 5;
-		if (filter === '4') return item.rating >= 4;
-		return true;
-	});
+  const filteredData = testimonialData.filter((item) => {
+	if (filter === 'all') return true;
+	if (filter === '5') return item.rating === 5;
+	if (filter === '4') return item.rating >= 4;
+	if (filter === '3') return item.rating >= 3;
+	return true;
+  });
+
+  const totalPages = Math.ceil(filteredData.length / cardsPerPage);
+  const paginatedData = filteredData.slice((page - 1) * cardsPerPage, page * cardsPerPage);
 
 	return (
 		<section style={{ padding: '8rem 5% 5rem' }}>
@@ -193,88 +200,122 @@ function Testimonial() {
 				</p>
 			</div>
 
-			<div
-				style={{
-					display: 'flex',
-					justifyContent: 'center',
-					gap: '1rem',
-					flexWrap: 'wrap',
-					marginBottom: '3rem',
-				}}
-			>
-				<button
-					onClick={() => setFilter('all')}
-					style={{
-						padding: '0.75rem 1.5rem',
-						borderRadius: '30px',
-						border: 'none',
-						background: 'linear-gradient(135deg, #1E90FF, #2ECC71)',
-						color: 'white',
-						fontWeight: 600,
-						boxShadow: filter === 'all'
-							? '0 4px 16px #1E90FF40'
-							: '0 2px 8px rgba(44,62,80,0.10)',
-						cursor: 'pointer',
-						transition: 'all 0.3s ease',
-					}}
-				>
-					All Reviews
-				</button>
-				<button
-					onClick={() => setFilter('5')}
-					style={{
-						padding: '0.75rem 1.5rem',
-						borderRadius: '30px',
-						border: 'none',
-						background: 'linear-gradient(135deg, #1E90FF, #2ECC71)',
-						color: 'white',
-						fontWeight: 600,
-						boxShadow: filter === '5'
-							? '0 4px 16px #1E90FF40'
-							: '0 2px 8px rgba(44,62,80,0.10)',
-						cursor: 'pointer',
-						transition: 'all 0.3s ease',
-					}}
-				>
-					5 Star Reviews
-				</button>
-				<button
-					onClick={() => setFilter('4')}
-					style={{
-						padding: '0.75rem 1.5rem',
-						borderRadius: '30px',
-						border: 'none',
-						background: 'linear-gradient(135deg, #1E90FF, #2ECC71)',
-						color: 'white',
-						fontWeight: 600,
-						boxShadow: filter === '4'
-							? '0 4px 16px #1E90FF40'
-							: '0 2px 8px rgba(44,62,80,0.10)',
-						cursor: 'pointer',
-						transition: 'all 0.3s ease',
-					}}
-				>
-					4+ Star Reviews
-				</button>
-			</div>
+	  <div
+		style={{
+		  display: 'flex',
+		  justifyContent: 'center',
+		  gap: '32px',
+		  flexWrap: 'wrap',
+		  marginBottom: '3rem',
+		}}
+	  >
+		<button
+		  className={`testimonial-filter-btn${filter === 'all' ? ' active' : ''}`}
+		  onClick={() => { setFilter('all'); setPage(1); }}
+		>
+		  All Reviews
+		</button>
+		<button
+		  className={`testimonial-filter-btn${filter === '5' ? ' active' : ''}`}
+		  onClick={() => { setFilter('5'); setPage(1); }}
+		>
+		  5 <FaStar style={{ color: '#FFD700', marginLeft: 2, marginBottom: 2 }} />
+		</button>
+		<button
+		  className={`testimonial-filter-btn${filter === '4' ? ' active' : ''}`}
+		  onClick={() => { setFilter('4'); setPage(1); }}
+		>
+		  4 <FaStar style={{ color: '#FFD700', marginLeft: 2, marginBottom: 2 }} />
+		</button>
+		<button
+		  className={`testimonial-filter-btn${filter === '3' ? ' active' : ''}`}
+		  onClick={() => { setFilter('3'); setPage(1); }}
+		>
+		  3 <FaStar style={{ color: '#FFD700', marginLeft: 2, marginBottom: 2 }} />
+		</button>
+	  </div>
 
-			<div
-				style={{
-					display: 'grid',
-					gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
-					gap: '2rem',
-					maxWidth: '1400px',
-					margin: '0 auto',
-				}}
-			>
-				{filteredData.map((item, i) => (
-					<TestimonialCard
-						key={i}
-						{...item}
-						className={i % 2 === 0 ? 'left-animate' : 'right-animate'}
-					/>
-				))}
-			</div>
+	  <div
+		style={{
+		  display: 'grid',
+		  gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+		  gap: '2rem',
+		  maxWidth: '1400px',
+		  margin: '0 auto',
+		}}
+	  >
+		{paginatedData.map((item, i) => (
+		  <TestimonialCard
+			key={(page-1)*cardsPerPage+i}
+			{...item}
+			className={i % 2 === 0 ? 'left-animate' : 'right-animate'}
+		  />
+		))}
+	  </div>
+	  {totalPages > 1 && (
+		<div style={{ display: 'flex', justifyContent: 'center', gap: '32px', marginTop: '32px' }}>
+		  <button
+			onClick={() => setPage(page - 1)}
+			disabled={page === 1}
+			style={{
+			  padding: '10px 28px',
+			  border: 'none',
+			  borderRadius: '26px',
+			  background: page === 1 ? '#e3eafc' : '#2a4365',
+			  color: page === 1 ? '#aaa' : 'white',
+			  fontWeight: 700,
+			  fontSize: '1.08rem',
+			  letterSpacing: '0.5px',
+			  boxShadow: '0 4px 16px rgba(44,62,80,0.10)',
+			  cursor: page === 1 ? 'not-allowed' : 'pointer',
+			  transition: 'all 0.25s cubic-bezier(.25,.8,.25,1)',
+			  outline: 'none',
+			}}
+			onMouseEnter={e => {
+			  if (page !== 1) {
+				e.target.style.transform = 'scale(1.10)';
+				e.target.style.boxShadow = '0 12px 32px #2a436560';
+			  }
+			}}
+			onMouseLeave={e => {
+			  e.target.style.transform = 'scale(1)';
+			  e.target.style.boxShadow = '0 4px 16px rgba(44,62,80,0.10)';
+			}}
+		  >
+			Previous
+		  </button>
+		  <button
+			onClick={() => setPage(page + 1)}
+			disabled={page === totalPages}
+			style={{
+			  padding: '10px 28px',
+			  border: 'none',
+			  borderRadius: '26px',
+			  background: page === totalPages ? '#e3eafc' : '#2a4365',
+			  color: page === totalPages ? '#aaa' : 'white',
+			  fontWeight: 700,
+			  fontSize: '1.08rem',
+			  letterSpacing: '0.5px',
+			  boxShadow: '0 4px 16px rgba(44,62,80,0.10)',
+			  cursor: page === totalPages ? 'not-allowed' : 'pointer',
+			  transition: 'all 0.25s cubic-bezier(.25,.8,.25,1)',
+			  outline: 'none',
+			}}
+			onMouseEnter={e => {
+			  if (page !== totalPages) {
+				e.target.style.transform = 'scale(1.10)';
+				e.target.style.boxShadow = '0 12px 32px #2a436560';
+			  }
+			}}
+			onMouseLeave={e => {
+			  e.target.style.transform = 'scale(1)';
+			  e.target.style.boxShadow = '0 4px 16px rgba(44,62,80,0.10)';
+			}}
+		  >
+			Next
+		  </button>
+		</div>
+	  )}
 		</section>
 	);
 }
