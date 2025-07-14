@@ -43,6 +43,7 @@ function Auth() {
     setTimeout(() => {
       setLoading(false);
       setSuccess('Login successful! Redirecting...');
+      localStorage.setItem('isLoggedIn', 'true');
       setTimeout(() => {
         setSuccess('');
         navigate('/');
@@ -70,6 +71,7 @@ function Auth() {
     setTimeout(() => {
       setLoading(false);
       setSuccess('Account created successfully! Redirecting...');
+      localStorage.setItem('isLoggedIn', 'true');
       setTimeout(() => {
         setSuccess('');
         navigate('/');

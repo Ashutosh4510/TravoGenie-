@@ -42,7 +42,9 @@ code {
 }
 /* css for destination */
 .destination-card {
-  background: #fff;
+  background: linear-gradient(135deg, rgba(255,255,255,0.92) 0%, rgba(245,245,245,0.92) 100%), url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=800&q=80') center center/cover no-repeat;
+  background-blend-mode: lighten, overlay;
+  color: #1a2233;
   border-radius: 12px;
   overflow: hidden;
   box-shadow: 0 5px 15px rgba(0,0,0,0.05);
@@ -64,7 +66,9 @@ code {
 }
 /* css for testimonial */
 .testimonial-card {
-  background: #fff;
+  background: linear-gradient(135deg, rgba(30,53,94,0.98) 0%, rgba(42,67,101,0.95) 100%), url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=800&q=80') center center/cover no-repeat;
+  background-blend-mode: overlay;
+  color: #fff;
   padding: 1.5rem;
   border-radius: 16px;
   box-shadow: 0 8px 32px rgba(30, 144, 255, 0.10), 0 2px 8px rgba(44,62,80,0.10);
@@ -190,7 +194,9 @@ code {
 }
 
 .destination-card {
-  background: white;
+  background: linear-gradient(135deg, rgba(30,53,94,0.92) 0%, rgba(42,67,101,0.88) 100%), url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=800&q=80') center center/cover no-repeat;
+  background-blend-mode: overlay;
+  color: #f8fafc;
   border-radius: 10px;
   overflow: hidden;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.18);
@@ -343,4 +349,9 @@ code {
 }
 .testimonial-card.right-animate {
   animation: slideInRight 0.7s cubic-bezier(.25,.8,.25,1);
+}
+
+.global-bg {
+  background: url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1500&q=80') center center/cover no-repeat fixed;
+  background-color: #1a2233;
 }

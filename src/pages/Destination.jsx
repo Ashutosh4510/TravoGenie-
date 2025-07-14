@@ -362,7 +362,18 @@ function Destination() {
   const paginatedDestinations = filteredDestinations.slice((page - 1) * cardsPerPage, page * cardsPerPage);
 
   return (
-    <div style={{ padding: '80px 5% 40px', maxWidth: '1400px', margin: '0 auto' }}>
+    <div
+      className="global-bg"
+      style={{
+        minHeight: '100vh',
+        width: '100vw',
+        padding: '80px 5% 40px',
+        maxWidth: '100vw',
+        margin: '0 auto',
+        boxSizing: 'border-box',
+        overflowX: 'hidden',
+      }}
+    >
       <div style={{ textAlign: 'center', marginBottom: '40px' }}>
         <h1
           className="destination-heading-animate"
@@ -393,8 +404,28 @@ function Destination() {
         </p>
       </div>
 
-      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '28px', marginBottom: '30px', alignItems: 'center' }}>
-        <div style={{ position: 'relative', flex: '0 0 320px', maxWidth: '320px', minWidth: '180px' }}>
+      <div
+        style={{
+          display: 'flex',
+          flexWrap: 'wrap',
+          gap: '32px',
+          marginBottom: '30px',
+          alignItems: 'center',
+          justifyContent: 'center',
+          rowGap: '18px',
+        }}
+      >
+        <div
+          style={{
+            position: 'relative',
+            flex: '0 0 320px',
+            maxWidth: '320px',
+            minWidth: '180px',
+            marginRight: '64px',
+            marginBottom: 0,
+            alignSelf: 'center',
+          }}
+        >
           <input
             type="text"
             placeholder="Search destinations..."
@@ -429,7 +460,15 @@ function Destination() {
           }} />
         </div>
 
-        <div style={{ display: 'flex', gap: '48px' }}>
+        <div
+          style={{
+            display: 'flex',
+            gap: '24px',
+            alignItems: 'center',
+            marginTop: 0,
+            marginBottom: 0,
+          }}
+        >
           {['all', 'budget', 'luxury'].map(type => {
             const colors = {
               all: '#2a4365',
@@ -493,6 +532,7 @@ function Destination() {
             outline: 'none',
             cursor: 'pointer',
             transition: 'box-shadow 0.3s, background 0.3s',
+            alignSelf: 'center',
           }}
           onFocus={e => e.target.style.boxShadow = '0 0 0 3px #2a436580'}
           onBlur={e => e.target.style.boxShadow = '0 2px 8px rgba(44,62,80,0.10)'}
@@ -562,18 +602,23 @@ function Destination() {
       ) : (
         <>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '30px' }}>
-            {paginatedDestinations.map((dest, i) => (
-              <DestinationCard 
-                key={`${filter}-${search}-${(page-1)*cardsPerPage+i}`}
-                image={dest.image}
-                title={dest.title}
-                desc={dest.desc}
-                price={dest.price}
-                duration={dest.duration}
-                rating={dest.rating}
-                className={i % 2 === 0 ? 'left' : 'right'}
-              />
-            ))}
+            {paginatedDestinations.map((dest, i) => {
+              // Find the global index in filteredDestinations for correct id
+              const globalIndex = (page - 1) * cardsPerPage + i;
+              return (
+                <DestinationCard
+                  key={`${filter}-${search}-${globalIndex}`}
+                  id={globalIndex}
+                  image={dest.image}
+                  title={dest.title}
+                  desc={dest.desc}
+                  price={dest.price}
+                  duration={dest.duration}
+                  rating={dest.rating}
+                  className={i % 2 === 0 ? 'left' : 'right'}
+                />
+              );
+            })}
           </div>
           {totalPages > 1 && (
             <div style={{ display: 'flex', justifyContent: 'center', gap: '32px', marginTop: '32px' }}>
