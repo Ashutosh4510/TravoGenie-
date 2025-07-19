@@ -46,13 +46,14 @@ function Testimonial() {
   const paginatedData = useMemo(() => filteredData.slice((page - 1) * cardsPerPage, page * cardsPerPage), [filteredData, page, cardsPerPage]);
 
   return (
-	<section className="global-bg" style={{
-	  minHeight: '100vh',
-	  width: '100vw',
-	  boxSizing: 'border-box',
-	  overflowX: 'hidden',
-	  padding: '2.5rem 2% 1.5rem',
-	}}>
+  <section style={{
+	minHeight: '100vh',
+	width: '100vw',
+	boxSizing: 'border-box',
+	overflowX: 'hidden',
+	padding: '2.5rem 2% 1.5rem',
+	background: '#fff',
+  }}>
 	  <div style={{ textAlign: 'center', marginBottom: '2.2rem' }}>
 		<h2
 		  style={{
@@ -140,86 +141,21 @@ function Testimonial() {
 	  </div>
 
 	  <div
-		style={{
-		  display: 'grid',
-		  gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
-		  gap: '1.2rem',
-		  maxWidth: '1100px',
-		  margin: '0 auto',
-		}}
-	  >
-		{paginatedData.map((item, i) => (
-		  <TestimonialCard
-			key={(page-1)*cardsPerPage+i}
-			{...item}
-			className={i % 2 === 0 ? 'left-animate' : 'right-animate'}
-		  />
-		))}
-	  </div>
-	  {totalPages > 1 && (
-		<div style={{ display: 'flex', justifyContent: 'center', gap: '24px', marginTop: '24px' }}>
-		  <button
-			onClick={() => setPage(page - 1)}
-			disabled={page === 1}
-			style={{
-			  padding: '10px 28px',
-			  border: 'none',
-			  borderRadius: '26px',
-			  background: page === 1 ? '#e3eafc' : '#2a4365',
-			  color: page === 1 ? '#aaa' : 'white',
-			  fontWeight: 700,
-			  fontSize: '1.08rem',
-			  letterSpacing: '0.5px',
-			  boxShadow: '0 4px 16px rgba(44,62,80,0.10)',
-			  cursor: page === 1 ? 'not-allowed' : 'pointer',
-			  transition: 'all 0.25s cubic-bezier(.25,.8,.25,1)',
-			  outline: 'none',
-			}}
-			onMouseEnter={e => {
-			  if (page !== 1) {
-				e.target.style.transform = 'scale(1.10)';
-				e.target.style.boxShadow = '0 12px 32px #2a436560';
-			  }
-			}}
-			onMouseLeave={e => {
-			  e.target.style.transform = 'scale(1)';
-			  e.target.style.boxShadow = '0 4px 16px rgba(44,62,80,0.10)';
-			}}
-		  >
-			Previous
-		  </button>
-		  <button
-			onClick={() => setPage(page + 1)}
-			disabled={page === totalPages}
-			style={{
-			  padding: '10px 28px',
-			  border: 'none',
-			  borderRadius: '26px',
-			  background: page === totalPages ? '#e3eafc' : '#2a4365',
-			  color: page === totalPages ? '#aaa' : 'white',
-			  fontWeight: 700,
-			  fontSize: '1.08rem',
-			  letterSpacing: '0.5px',
-			  boxShadow: '0 4px 16px rgba(44,62,80,0.10)',
-			  cursor: page === totalPages ? 'not-allowed' : 'pointer',
-			  transition: 'all 0.25s cubic-bezier(.25,.8,.25,1)',
-			  outline: 'none',
-			}}
-			onMouseEnter={e => {
-			  if (page !== totalPages) {
-				e.target.style.transform = 'scale(1.10)';
-				e.target.style.boxShadow = '0 12px 32px #2a436560';
-			  }
-			}}
-			onMouseLeave={e => {
-			  e.target.style.transform = 'scale(1)';
-			  e.target.style.boxShadow = '0 4px 16px rgba(44,62,80,0.10)';
-			}}
-		  >
-			Next
-		  </button>
-		</div>
-	  )}
+	style={{
+	  display: 'grid',
+	  gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
+	  gap: '1.2rem',
+	  maxWidth: '1100px',
+	  margin: '0 auto',
+	}}
+  >
+	{paginatedData.map((item, i) => (
+	  <TestimonialCard
+		key={(page-1)*cardsPerPage+i}
+		{...item}
+	  />
+	))}
+  </div>
 	</section>
   );
 }

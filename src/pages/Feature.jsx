@@ -13,13 +13,14 @@ function Feature() {
   ];
 
   return (
-    <section className="feature-section global-bg" style={{
+    <section className="feature-section" style={{
       minHeight: '100vh',
       width: '100vw',
       boxSizing: 'border-box',
       overflowX: 'hidden',
       padding: 0,
       paddingTop: '90px', // Add space for navbar
+      background: '#fff',
     }}>
       <div className="feature-heading">
         <h2>Why Choose Travogenie?</h2>
