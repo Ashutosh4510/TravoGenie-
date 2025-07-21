@@ -108,9 +108,9 @@ function Auth() {
               {loginError && <div className="form-error">{loginError}</div>}
             </div>
             <div className="form-group" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <div style={{ flex: 1 }}>
-                <input type="checkbox" id="remember-me" style={{ marginRight: 5 }} />
-                <label htmlFor="remember-me" style={{ fontSize: 12, color: 'var(--light-text)' }}>Remember me</label>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                <label htmlFor="remember-me" style={{ fontSize: 12, color: 'var(--light-text)', margin: 0 }}>Remember me</label>
+                <input type="checkbox" id="remember-me" style={{ margin: 0 }} />
               </div>
               <a href="#" style={{ color: 'var(--primary-color)', fontSize: 12, textDecoration: 'none' }}>Forgot Password?</a>
             </div>

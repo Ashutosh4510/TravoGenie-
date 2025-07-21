@@ -36,8 +36,8 @@ function Testimonial() {
 	return testimonialData.filter((item) => {
 	  if (filter === 'all') return true;
 	  if (filter === '5') return item.rating === 5;
-	  if (filter === '4') return item.rating >= 4;
-	  if (filter === '3') return item.rating >= 3;
+	  if (filter === '4') return item.rating === 4;
+	  if (filter === '3') return item.rating === 3;
 	  return true;
 	});
   }, [filter]);
