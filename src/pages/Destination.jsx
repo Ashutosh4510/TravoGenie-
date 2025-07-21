@@ -394,17 +394,29 @@ function Destination() {
     return () => clearTimeout(timer);
   }, []);
 
+  // Helper to parse price string (handles ₹ and $)
+  function parsePrice(price) {
+    if (!price) return 0;
+    // Remove non-digit characters
+    return parseInt(price.replace(/[^\d]/g, '')) || 0;
+  }
+
   const filteredDestinations = destinations
     .filter(d => {
       const matchesSearch = d.title.toLowerCase().includes(search.toLowerCase());
-      const matchesFilter = filter === 'all' || 
-                         (filter === 'budget' && parseInt(d.price.slice(1)) < 1500) || 
-                         (filter === 'luxury' && parseInt(d.price.slice(1)) >= 2000);
+      let matchesFilter = false;
+      if (filter === 'all') {
+        matchesFilter = true;
+      } else if (filter === 'budget') {
+        matchesFilter = parsePrice(d.price) < 1500;
+      } else if (filter === 'luxury') {
+        matchesFilter = parsePrice(d.price) >= 2000;
+      }
       return matchesSearch && matchesFilter;
     })
     .sort((a, b) => {
-      if (sort === 'price-low') return parseInt(a.price.slice(1)) - parseInt(b.price.slice(1));
-      if (sort === 'price-high') return parseInt(b.price.slice(1)) - parseInt(a.price.slice(1));
+      if (sort === 'price-low') return parsePrice(a.price) - parsePrice(b.price);
+      if (sort === 'price-high') return parsePrice(b.price) - parsePrice(a.price);
       if (sort === 'rating') return b.rating - a.rating;
       if (sort === 'duration') return a.duration - b.duration;
       return 0;
@@ -700,8 +712,15 @@ function Destination() {
                       <h3 style={{ color: '#fff', fontSize: '1.18rem', fontWeight: 700, margin: 0, textAlign: 'center', textShadow: '0 2px 8px #000' }}>{dest.title}</h3>
                       <div style={{ color: '#e3eafc', fontSize: '0.98rem', fontWeight: 500, marginTop: '4px', textAlign: 'center', textShadow: '0 1px 4px #000' }}>{dest.desc}</div>
                       <span style={{ color: '#fff', fontWeight: 700, fontSize: '1.08rem', marginTop: '6px', textShadow: '0 1px 4px #000' }}>{dest.price}</span>
-                      <button style={{
+                    </div>
+                  </div>
+                  <div style={{ padding: '18px 20px 12px 20px', flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'flex-start', position: 'relative' }}>
+                    <button style={{
                         marginTop: '10px',
+                        marginBottom: '18px',
+                        marginLeft: 'auto',
+                        marginRight: 'auto',
+                        display: 'block',
                         padding: '8px 22px',
                         background: 'rgba(30,144,255,0.85)',
                         color: '#fff',
@@ -713,12 +732,11 @@ function Destination() {
                         cursor: 'pointer',
                         transition: 'background 0.2s',
                         textAlign: 'center',
+                        position: 'relative',
+                        top: '10px',
                       }}
                       onClick={() => window.location.href = `/destination/${globalIndex}`}
-                      >View Details</button>
-                    </div>
-                  </div>
-                  <div style={{ padding: '18px 20px 12px 20px', flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'flex-end' }}>
+                    >View Details</button>
                     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: '10px' }}>
                       <span style={{ fontWeight: 700, color: '#1E90FF', fontSize: '1.08rem' }}>{dest.price}</span>
                       <span style={{ fontSize: '0.98rem', color: '#718096', fontWeight: 500 }}>{dest.duration} days</span>
