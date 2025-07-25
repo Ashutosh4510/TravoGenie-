@@ -355,3 +355,14 @@ code {
   background: url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1500&q=80') center center/cover no-repeat fixed;
   background-color: #1a2233;
 }
+
+
+/* --- begin ChatGPT minimal patch to tighten gaps in image section --- */
+.image-section, .gallery, .images-grid, .image-grid, .image-wrapper {
+  gap: 4px !important;
+}
+.image-section img, .gallery img, .images-grid img, .image-grid img, .image-wrapper img {
+  margin: 2px !important;
+}
+/* --- end ChatGPT minimal patch --- */
+
